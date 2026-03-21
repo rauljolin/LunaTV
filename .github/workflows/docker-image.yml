@@ -30,14 +30,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Force Static Export
+      - name: Build and Export
         run: |
-          sed -i "s/const nextConfig = {/const nextConfig = { output: 'export', images: { unoptimized: true }, /" next.config.mjs || sed -i "s/const nextConfig = {/const nextConfig = { output: 'export', images: { unoptimized: true }, /" next.config.js
-
-      - name: Build with Next.js
-        run: pnpm run build
+          pnpm run build
         env:
           NEXT_PUBLIC_SITE_NAME: 'FlickZone'
+          # 强制 Next.js 进行静态导出
+          NEXT_OUTPUT: export
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
